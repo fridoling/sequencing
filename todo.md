@@ -1,5 +1,5 @@
 
-
+# TO DO list for sequencing analysis
 general strategy to filter mutations found by isomut:
 merge all the mutations, without any additional filtering after isomut
 keep only those (chromosome / position) above a given threshold in at least one strain
