@@ -31,11 +31,13 @@ done
 
 
 # path to sequencing repository
-PROJECT="$( cd ../"$(dirname "$0")" ; pwd -P )"
+#PROJECT=$(dirname "$0")
+SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+PROJECT="$(dirname $SRC)"
 
 # path to used programs
-FASTQC=$PROJECTPATH/bin/bin/FastQC/fastqc
-TRIMMO=$PROJECTPATH/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
+FASTQC=$PROJECT/bin/FastQC/fastqc
+TRIMMO=$PROJECT/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
 
 # path to adapter sequences
 ADAPTERS=$PROJECTPATH/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa
