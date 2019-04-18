@@ -71,8 +71,6 @@ else
 fi
 
 # get quality info for unprocessed sequences
-echo $RAWFASTAPATH
-exit 1
 $FASTQC $FASTA1 $FASTA2 --outdir=$RAWFASTAPATH
 
 # trim fasta files
