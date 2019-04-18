@@ -45,7 +45,6 @@ fi
 
 
 # path to sequencing repository
-#PROJECT=$(dirname "$0")
 SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT="$(dirname $SRC)"
 
@@ -57,7 +56,7 @@ TRIMMO=$PROJECT/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
 ADAPTERS=$PROJECT/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa
 
 # get file and samplenames for fasta files
-RAWFASTAPATH=$(dirname "${VAR}")
+RAWFASTAPATH=$(dirname "${FASTA1}")
 F1NAME=${FASTA1##*/}
 F2NAME=${FASTA2##*/}
 SAMPLE1=${F1NAME%%_*}
@@ -72,6 +71,8 @@ else
 fi
 
 # get quality info for unprocessed sequences
+echo $RAWFASTAPATH
+exit 1
 $FASTQC $FASTA1 $FASTA2 --outdir=$RAWFASTAPATH
 
 # trim fasta files
