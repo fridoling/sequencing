@@ -2,7 +2,7 @@
 
 usage()
 {
-  echo "Usage: $0 fasta1 fasta2 [-r REF] [-o OUTDIR]"
+  echo "Usage: ${0##*/} fasta1 fasta2 -r REF [-o OUTDIR]"
   exit 2
 }
 
@@ -36,12 +36,31 @@ do
   esac
 done
 
+# check whether input files exist
+if [ ! -f $FASTA1 ] || [ ! -f $FASTA2 ]; then
+   echo "Error: Please provide paths to existing fasta files." 
+   exit 2
+fi
+
+# check whether reference is provided
+if [ -z $REF ]; then
+   echo "Error: Please provide path to reference genome"
+   usage
+   exit 2
+fi 
+
+# check whether reference exists
+if [ ! -f $REF ]; then
+   echo "Error: Please provide path to existing reference genome."
+   exit 2
+fi
+
 # if output directory is not given, use current directory 
 if [ -z $OUTDIR ]; then
    OUTDIR='.'
 fi
 
-# if output directory doesn't exist, create it
+# if output directory doesn not exist, create it
 if [ ! -d $OUTDIR ]; then
    mkdir -m 775 $OUTDIR
 fi
@@ -52,15 +71,11 @@ OUTPUTALIGN="$OUTDIR"/"$NAME".bam # set output path
 
 # perform alignment, remove duplicates and sort
 echo aligning "$NAME"...
-{
 bwa mem $REF $FASTA1 $FASTA2 |\
 samblaster -r |\
 samtools view -buS - |\
 samtools sort -m 5000000000 -o $OUTPUTALIGN
-} 2>"$OUTPUTALIGN".log.txt 
 
 # index bam file
 echo indexing "$NAME"...
-samtools index $OUTPUTALIGN 2>>"$OUTPUTALIGN".log.txt 
-
-
+samtools index $OUTPUTALIGN

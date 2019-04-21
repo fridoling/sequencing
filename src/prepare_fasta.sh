@@ -2,7 +2,7 @@
 
 usage()
 {
-  echo "Usage: $0 fasta1 fasta2 [-d DATE] [-o OUTDIR]"
+  echo "Usage: ${0##*/} fasta1 fasta2 [-d DATE] [-o OUTDIR]"
   exit 2
 }
 
@@ -12,7 +12,6 @@ fi
 
 FASTA1=$1
 FASTA2=$2
-
 
 set_variable()
 {
@@ -37,12 +36,21 @@ do
   esac
 done
 
-if [ -z $OUTDIR ]; then
-   OUTDIR='.'
-else
-   mkdir -m 775 $OUTDIR
+# check whether input files exist
+if [ ! -f $FASTA1 ] || [ ! -f $FASTA2 ]; then
+   echo "Error: Please provide paths to existing fasta files." 
+   exit 2
 fi
 
+# if output directory is not given, use current directory 
+if [ -z $OUTDIR ]; then
+   OUTDIR='.'
+fi
+
+# if output directory doesn't exist, create it
+if [ ! -d $OUTDIR ]; then
+   mkdir -m 775 $OUTDIR
+fi
 
 # path to sequencing repository
 SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -59,25 +67,22 @@ ADAPTERS=$PROJECT/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa
 RAWFASTAPATH=$(dirname "${FASTA1}")
 F1NAME=${FASTA1##*/}
 F2NAME=${FASTA2##*/}
-SAMPLE1=${F1NAME%%_*}
-SAMPLE2=${F2NAME%%_*}
+SAMPLE=${F1NAME%%_*}
 
 if [ -z "$DATE" ]; then
-  S1NAME=${F1NAME%%.*}
-  S2NAME=${F2NAME%%.*}
+  NEWNAME="$SAMPLE"
 else
-  S1NAME="$SAMPLE1"_"$DATE"
-  S2NAME="$SAMPLE2"_"$DATE"
+  NEWNAME="$SAMPLE"_"$DATE"
 fi
 
 # get quality info for unprocessed sequences
-$FASTQC $FASTA1 $FASTA2 --outdir=$RAWFASTAPATH
+#$FASTQC $FASTA1 $FASTA2 --outdir=$RAWFASTAPATH
 
 # trim fasta files
-java -jar $TRIMMO PE -threads 2 -phred33 -trimlog $OUTDIR"/$S1NAME".trim_log.txt \
+java -jar $TRIMMO PE -threads 2 -phred33 -trimlog $OUTDIR"/$NEWNAME".trim_log.txt \
    $FASTA1 $FASTA2 \
-   -baseout $OUTDIR"/$S1NAME".trim.fq.gz  \
+   -baseout $OUTDIR"/$NEWNAME".trim.fq.gz  \
    ILLUMINACLIP:$ADAPTERS:2:30:8:2:TRUE SLIDINGWINDOW:5:20
 
 # get quality info for processed sequences
-$FASTQC $OUTDIR"/$S1NAME".trim_1P.fq.gz $OUTDIR"/$S2NAME".trim_2P.fq.gz --outdir=$OUTDIR
+#$FASTQC $OUTDIR"/$NEWNAME".trim_1P.fq.gz $OUTDIR"/$NEWNAME".trim_2P.fq.gz --outdir=$OUTDIR
