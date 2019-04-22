@@ -1,10 +1,12 @@
 #!/bin/bash
 
+shopt -s extglob
+
 EXPFOLDER=~/Desktop/arbeit/IFOM/DataTest
 DATE=20192104
-SRC=~/Desktop/arbeit/IFOM/sequencing/src
-BIN=~/Desktop/arbeit/IFOM/sequencing/bin
-REF=~/Desktop/arbeit/IFOM/sequencing_nongit/data/ref_genomes/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+SRC=/lustre/data/ANC/NGS/sequencing/src
+BIN=/lustre/data/ANC/NGS/sequencing/bin
+REF=/lustre/data/ANC/NGS/sequencing_nongit/data/ref_genomes/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
