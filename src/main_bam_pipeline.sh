@@ -1,12 +1,10 @@
 #!/bin/bash
 
-shopt -s extglob
-
-EXPFOLDER=~/Desktop/arbeit/IFOM/DataTest
+EXPFOLDER=/lustre/data/ANC/NGS/DataTest
 DATE=20192104
 SRC=/lustre/data/ANC/NGS/sequencing/src
 BIN=/lustre/data/ANC/NGS/sequencing/bin
-REF=/lustre/data/ANC/NGS/sequencing_nongit/data/ref_genomes/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+REF=/lustre/data/ANC/NGS/ref_genomes/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
