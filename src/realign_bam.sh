@@ -31,7 +31,7 @@ do
 done
 
 # check whether input file exists
-if [ ! -f $BAM]; then
+if [ ! -f $BAM ]; then
    echo "Error: Please provide paths to an existing BAM file." 
    exit 2
 fi
@@ -53,15 +53,15 @@ GATK=$PROJECT/bin/GenomeAnalysisTK.jar
 # add readgroups to bam file using picard
 # TODO: any meaningful info to put there?
 echo "adding readgroups..."
-#BAM_RG="${BAM%.*}"_RG.bam
+BAM_RG="${BAM%.*}"_RG.bam
 java -jar $PICARD AddOrReplaceReadGroups \
 I=$BAM \
-O=$BAM RGLB=lib RGPL=illumina RGPU=NA RGSM=30
+O=$BAM_RG RGLB=lib RGPL=illumina RGPU=NA RGSM=30
 echo "...done."
 
 # index resulting bam file
 echo "indexing resulting file..."
-samtools index $BAM
+samtools index $BAM_RG
 echo "...done."
 
 # create target intervals:
@@ -69,7 +69,7 @@ echo "creating  target intervals..."
 IV="${BAM%.*}".intervals
 java -jar $GATK -T RealignerTargetCreator \
 -R $REF \
--I $BAM \
+-I $BAM_RG \
 -o $IV
 echo "...done."
 
@@ -79,6 +79,6 @@ BAM_OUT="${BAM%.*}"_realigned.bam
 java -jar $GATK -T IndelRealigner \
 -R $REF \
 -targetIntervals $IV \
--I $BAM \
+-I $BAM_RG \
 -o $BAM_OUT
 echo "...done."
