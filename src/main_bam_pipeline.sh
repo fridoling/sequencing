@@ -10,6 +10,9 @@ FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
 BAMFOLDER=$EXPFOLDER/bamfiles
 
+# rename fasta files using the date of experiment
+$SRC/rename_fasta.sh $FASTAFOLDER $DATE
+
 ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
 (while read FILENAME; do
    F1="$FILENAME"_R1_001.fastq.gz 
