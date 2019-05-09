@@ -45,7 +45,7 @@ do
 	if [ -f $newfile ]; then
 	    echo Skip $filename: $newfilename already exists
 	else
-	    echo mv $file $newfile
+	    mv $file $newfile
 	fi
     fi
 done
