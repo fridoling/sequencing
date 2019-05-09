@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXPFOLDER=/lustre/data/ANC/NGS/DataTest/exp_full
+EXPFOLDER=/lustre/data/ANC/NGS/DataTest/exp_small
 DATE=20192104
 SRC=/lustre/data/ANC/NGS/sequencing/src
 BIN=/lustre/data/ANC/NGS/sequencing/bin
