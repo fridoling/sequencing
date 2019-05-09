@@ -60,7 +60,7 @@ if [ -z $OUTDIR ]; then
    OUTDIR='.'
 fi
 
-# if output directory doesn not exist, create it
+# if output directory does not exist, create it
 if [ ! -d $OUTDIR ]; then
    mkdir -m 775 $OUTDIR
 fi

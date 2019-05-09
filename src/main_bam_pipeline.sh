@@ -11,7 +11,13 @@ TEMP=$EXPFOLDER/processed
 BAMFOLDER=$EXPFOLDER/bamfiles
 LOGFOLDER=$EXPFOLDER/log
 
-LOGFILE=$LOGFOLDER/log.txt
+# unique name of logfile that includes date and time
+LOGFILE=$LOGFOLDER/log`date +%Y%m%d_%H%M%S`.txt
+
+# if log directory does not exist, create it
+if [ ! -d $LOGFOLDER ]; then
+   mkdir -m 775 $LOGFOLDER
+fi
 
 {
 # rename fasta files using the date of experiment
