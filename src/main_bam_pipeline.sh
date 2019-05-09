@@ -9,7 +9,11 @@ REF=/lustre/data/ANC/NGS/ref/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
 BAMFOLDER=$EXPFOLDER/bamfiles
+LOGFOLDER=$EXPFOLDER/log
 
+LOGFILE=$LOGFOLDER/log.txt
+
+{
 # rename fasta files using the date of experiment
 $SRC/rename_fasta.sh $FASTAFOLDER $DATE
 
@@ -19,7 +23,7 @@ ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
    F2="$FILENAME"_R2_001.fastq.gz 
 
    # get quality info for unprocessed sequences
-   $BIN/FastQC/fastqc $F1 $F2 --outdir=$FASTAFOLDER
+   $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
 
    # trim fasta sequences
    $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
@@ -36,3 +40,4 @@ ls $BAMFOLDER/*.bam |
 (while read FILENAME; do
   $SRC/realign_bam.sh $FILENAME -r $REF
 done)
+} 2>&1 | tee $LOGFILE
