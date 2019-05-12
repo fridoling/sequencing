@@ -20,30 +20,45 @@ if [ ! -d $LOGFOLDER ]; then
 fi
 
 {
-# rename fasta files using the date of experiment
-$SRC/rename_fasta.sh $FASTAFOLDER $DATE
+    # rename fasta files using the date of experiment
+    echo -e "*** \t \t STEP 1: RENAME ORIGINAL FASTA FILES \t \t ***"
+    $SRC/rename_fasta.sh $FASTAFOLDER $DATE
+    echo -e "*** RENAMING: done \n\n\n"
 
-ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
-(while read FILENAME; do
-   F1="$FILENAME"_R1_001.fastq.gz 
-   F2="$FILENAME"_R2_001.fastq.gz 
+    ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
+	(while read FILENAME; do
+	     F1="$FILENAME"_R1_001.fastq.gz 
+	     F2="$FILENAME"_R2_001.fastq.gz 
+	     
+	     echo -e "*** trim $FILENAME"
 
-   # get quality info for unprocessed sequences
-   $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
+	     # get quality info for unprocessed sequences
+	     $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
+	     
+	     # trim fasta sequences
+	     $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
+	 done)
+    echo -e "*** TRIMMING: done \n\n\n"
+    
+    ls $FASTAFOLDER*.trim_1P.fq.gz | sed 's/.trim_1P.fq.gz//' |\
+	(while read FILENAME; do
+	     F1="$FILENAME".trim_1P.fq.gz
+	     F2="$FILENAME".trim_2P.fq.gz
 
-   # trim fasta sequences
-   $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
-done)
+	     echo -e "*** prepare bam from $FILENAME"
 
-ls $FASTAFOLDER*.trim_1P.fq.gz | sed 's/.trim_1P.fq.gz//' |\
-(while read FILENAME; do
-   F1="$FILENAME".trim_1P.fq.gz
-   F2="$FILENAME".trim_2P.fq.gz
-   $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
-done)
+	     $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
+	 done)
+    echo -e "*** BAM CREATION: done \n\n\n"
+    
+    ls $BAMFOLDER/*.bam |
+	(while read FILENAME; do
+	     echo -e "*** realign $FILENAME"
+	     $SRC/realign_bam.sh $FILENAME -r $REF
 
-ls $BAMFOLDER/*.bam |
-(while read FILENAME; do
-  $SRC/realign_bam.sh $FILENAME -r $REF
-done)
+	     echo -e "*** get information about $FILENAME quality"
+	     $BIN/qualimap_v2.2.1/qualimap bamqc -bam $FILENAME -nw 400 -hm 3
+
+	 done)
+    echo -e "*** BAM REALIGNMENT and QUALITY CHECK: done \n\n\n"
 } 2>&1 | tee $LOGFILE
