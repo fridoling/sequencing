@@ -20,8 +20,10 @@ if [ ! -d $LOGFOLDER ]; then
 fi
 
 {
+    echo -e "START EVERYTHING AT " $(date) "\n\n"
+
     # rename fasta files using the date of experiment
-    echo -e "*** \t \t STEP 1: RENAME ORIGINAL FASTA FILES \t \t ***"
+    echo -e "*** \t \t Step 1: rename original fasta files  \t \t ***"
     $SRC/rename_fasta.sh $FASTAFOLDER $DATE
     echo -e "*** RENAMING: done \n\n\n"
 
@@ -61,4 +63,6 @@ fi
 
 	 done)
     echo -e "*** BAM REALIGNMENT and QUALITY CHECK: done \n\n\n"
+    echo -e "EVERYTHING DONE AT " $(date) "\n\n"
+
 } 2>&1 | tee $LOGFILE
