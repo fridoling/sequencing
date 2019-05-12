@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXPFOLDER=/lustre/data/ANC/NGS/DataTest/exp_small
+EXPFOLDER=/lustre/data/ANC/NGS/20190225_tub2-150_facility
 DATE=20192104
 SRC=/lustre/data/ANC/NGS/sequencing/src
 BIN=/lustre/data/ANC/NGS/sequencing/bin
@@ -8,7 +8,7 @@ REF=/lustre/data/ANC/NGS/ref/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
-BAMFOLDER=$EXPFOLDER/bamfiles
+BAMFOLDER=$EXPFOLDER/bam_pipeline
 LOGFOLDER=$EXPFOLDER/log
 
 # unique name of logfile that includes date and time
