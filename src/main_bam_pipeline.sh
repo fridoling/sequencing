@@ -58,7 +58,7 @@ fi
 	     echo -e "*** realign $FILENAME"
 	     $SRC/realign_bam.sh $FILENAME -r $REF
 
-	     REALIGNEDFILE= "${FILENAME%%.*}"_realigned.bam
+	     REALIGNEDFILE="${FILENAME%%.*}"_realigned.bam
 	     echo -e "*** get information about $REALIGNEDFILE quality"
 	     $BIN/qualimap_v2.2.1/qualimap bamqc -bam $REALIGNEDFILE -nw 400 -hm 3
 
