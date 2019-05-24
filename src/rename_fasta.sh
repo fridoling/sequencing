@@ -37,16 +37,28 @@ fi
 for file in $INPUTDIR/*.gz
 do
     filename=$(basename "$file")
-    # check if file name already starts with PREFIX 
-    if [[ $filename != "$PREFIX"* ]]; then
+    # if it is illumina name, take out SAMPLENAME
+    if [[ $filename =~ _S[0-9]{1,2}_L[0-9]{3}_R[1-2]_001 ]]; then
+	# sample name is what's before the first underscore
+	samplename=${filename%%_*}
+	newfilename="$PREFIX"_"$samplename".fastq.gz
+    else if
+    # if it is NOVOGENE 190516 name, take out SAMPLENAME
+    if [[ $filename =~ _F ]]; then
+	# sample name is what's before the first _F
+	samplename=${filename%%_F*}
+	newfilename="$PREFIX"_"$samplename".fq.gz
+	# otherwise simply add PREFIX to the name
 	newfilename="$PREFIX"_$filename
-	newfile=$INPUTDIR/$newfilename
-	# check if the new filename is already taken
-	if [ -f $newfile ]; then
-	    echo Skip $filename: $newfilename already exists
-	else
-	    mv $file $newfile
-	fi
     fi
+    
+    newfile=$INPUTDIR/$newfilename
+    # check if the new filename is already taken
+    if [ -f $newfile ]; then
+	echo Skip $filename: $newfilename already exists
+    else
+	mv $file $newfile
+    fi
+
 done
 
