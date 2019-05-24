@@ -42,7 +42,7 @@ do
 	# sample name is what's before the first underscore
 	samplename=${filename%%_*}
 	newfilename="$PREFIX"_"$samplename".fastq.gz
-    else if [[ $filename =~ _F ]]; then
+    elif [[ $filename =~ _F ]]; then
 	# if it is NOVOGENE 190516 name, take out SAMPLENAME
 	# sample name is what's before the first _F
 	samplename=${filename%%_F*}
