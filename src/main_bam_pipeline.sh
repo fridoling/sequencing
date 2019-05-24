@@ -27,10 +27,13 @@ fi
     $SRC/rename_fasta.sh $FASTAFOLDER $DATE
     echo -e "*** RENAMING: done \n\n\n"
 
-    ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
+#    ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
+    ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.*//' |\
 	(while read FILENAME; do
-	     F1="$FILENAME"_R1_001.fastq.gz 
-	     F2="$FILENAME"_R2_001.fastq.gz 
+#	     F1="$FILENAME"_R1_001.fastq.gz 
+#	     F2="$FILENAME"_R2_001.fastq.gz 
+	     F1="$FILENAME"_1.fq.gz 
+	     F2="$FILENAME"_2.fq.gz 
 
 	     echo -e "*** trim $FILENAME"
 
