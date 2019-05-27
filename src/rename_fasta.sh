@@ -34,30 +34,29 @@ fi
 
 
 # rename files in INPUTDIR
-for file in $INPUTDIR/*.gz
+for file in $INPUTDIR/*[1-2].fq.gz
 do
     filename=$(basename "$file")
 
-    # if it already has PREFIX, do nothing
+    # SAMPLE NAME
     if [[ $filename == "$PREFIX"* ]] ; then
-	newfilename=$filename
-	# if it is illumina name, take out SAMPLENAME
-    elif [[ $filename =~ _S[0-9]{1,2}_L[0-9]{3}_R[1-2]_001 ]]; then
-	# sample name is what's before the first underscore
-	samplename=${filename%%_*}
-	newfilename="$PREFIX"_"$samplename".fastq.gz
-    elif [[ $filename =~ _F ]]; then
-
-	# WARNING: does not work!
-
+	# if it already has PREFIX, do nothing
+	continue
 	
+    elif [[ $filename =~ _F ]]; then
 	# if it is NOVOGENE 190516 name, take out SAMPLENAME
-	# sample name is what's before the first _F
-	samplename=${filename%%_F*}
-	newfilename="$PREFIX"_"$samplename".fq.gz
-	# otherwise simply add PREFIX to the name
-	newfilename="$PREFIX"_$filename
+	# sample name is what's before the first _F(letter)
+	samplename=${filename%%_F[A-Z]*}
+	newfilename="$PREFIX"_"$samplename"
     fi
+
+    # SUFFIX
+    if [[ $filename == *"_1.fq.gz" ]] ; then
+	SUFFIX="_1.fq.gz"	
+    elif [[ $filename == *"_2.fq.gz" ]] ; then
+	SUFFIX="_2.fq.gz"		
+    fi    
+    newfilename=$newfilename$SUFFIX
     
     newfile=$INPUTDIR/$newfilename
     # check if the new filename is already taken
@@ -66,6 +65,5 @@ do
     else
 	mv $file $newfile
     fi
-
 done
 
