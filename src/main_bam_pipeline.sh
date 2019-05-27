@@ -28,23 +28,28 @@ fi
     echo -e "*** RENAMING: done \n\n\n"
 
 #    ls $FASTAFOLDER*R1_001.fastq.gz | sed 's/_R1_001.*//' |\
-    ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.*//' |\
+    ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.fq.gz//' |\
 	(while read FILENAME; do
 #	     F1="$FILENAME"_R1_001.fastq.gz 
 #	     F2="$FILENAME"_R2_001.fastq.gz 
 	     F1="$FILENAME"_1.fq.gz 
-	     F2="$FILENAME"_2.fq.gz 
+	     F2="$FILENAME"_2.fq.gz
 
-	     echo -e "*** trim $FILENAME"
-
-	     # get quality info for unprocessed sequences
-	     $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
+	     # check gz file integrity
+	     if [ gzip -t $F1 ] && [ gzip -t $F2 ] ; then
+		 echo -e "\n\n*** trim $FILENAME"
+		 # get quality info for unprocessed sequences
+		 $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
 	     
-	     # trim fasta sequences
-	     $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
+		 # trim fasta sequences
+		 $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
+	     else
+		 echo -e "\n\nWARNING: $F1 or $F2 corrupted "
+	     fi
 	 done)
-   echo -e "*** TRIMMING: done \n\n\n"
-  
+    echo -e "*** TRIMMING: done \n\n\n"
+
+    
     ls $FASTAFOLDER*.trim_1P.fq.gz | sed 's/.trim_1P.fq.gz//' |\
 	(while read FILENAME; do
 	     F1="$FILENAME".trim_1P.fq.gz
@@ -54,7 +59,9 @@ fi
 
 	     $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
 	 done)
-   echo -e "*** BAM CREATION: done \n\n\n"
+    echo -e "*** BAM CREATION: done \n\n\n"
+
+
     
     ls $BAMFOLDER/*.bam |
 	(while read FILENAME; do

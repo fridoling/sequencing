@@ -37,12 +37,20 @@ fi
 for file in $INPUTDIR/*.gz
 do
     filename=$(basename "$file")
-    # if it is illumina name, take out SAMPLENAME
-    if [[ $filename =~ _S[0-9]{1,2}_L[0-9]{3}_R[1-2]_001 ]]; then
+
+    # if it already has PREFIX, do nothing
+    if [[ $filename == "$PREFIX"* ]] ; then
+	newfilename=$filename
+	# if it is illumina name, take out SAMPLENAME
+    elif [[ $filename =~ _S[0-9]{1,2}_L[0-9]{3}_R[1-2]_001 ]]; then
 	# sample name is what's before the first underscore
 	samplename=${filename%%_*}
 	newfilename="$PREFIX"_"$samplename".fastq.gz
     elif [[ $filename =~ _F ]]; then
+
+	# WARNING: does not work!
+
+	
 	# if it is NOVOGENE 190516 name, take out SAMPLENAME
 	# sample name is what's before the first _F
 	samplename=${filename%%_F*}
