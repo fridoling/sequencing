@@ -38,18 +38,25 @@ for file in $INPUTDIR/*[1-2].fq.gz
 do
     filename=$(basename "$file")
 
-    # SAMPLE NAME
-    if [[ $filename == "$PREFIX"* ]] ; then
-	# if it already has PREFIX, do nothing
-	continue
-	
-    elif [[ $filename =~ _F ]]; then
+#    # SAMPLE NAME
+#    if [[ $filename == "$PREFIX"* ]] ; then
+#	# if it already has PREFIX, do nothing
+#	continue	
+#    elif [[ $filename =~ _F ]]; then
+#	# if it is NOVOGENE 190516 name, take out SAMPLENAME
+#	# sample name is what's before the first _F(letter)
+#	samplename=${filename%%_F[A-Z]*}
+#	newfilename="$PREFIX"_"$samplename"
+#   fi
+
+    # SAMPLE NAME (if they already have a prefix)
+    if [[ $filename =~ _F ]]; then
 	# if it is NOVOGENE 190516 name, take out SAMPLENAME
 	# sample name is what's before the first _F(letter)
 	samplename=${filename%%_F[A-Z]*}
-	newfilename="$PREFIX"_"$samplename"
+	newfilename="$samplename"
     fi
-
+    
     # SUFFIX
     if [[ $filename == *"_1.fq.gz" ]] ; then
 	SUFFIX="_1.fq.gz"	
