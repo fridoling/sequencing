@@ -59,7 +59,8 @@ PROJECT="$(dirname $SRC)"
 TRIMMO=$PROJECT/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
 
 # path to adapter sequences
-ADAPTERS=$PROJECT/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa
+#ADAPTERS=$PROJECT/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa
+ADAPTERS=$PROJECT/bin/Trimmomatic-0.36/adapters/Novogene.fa
 
 # get file and samplenames for fasta files
 RAWFASTAPATH=$(dirname "${FASTA1}")
