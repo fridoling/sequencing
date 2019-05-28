@@ -33,7 +33,7 @@ fi
 	     F2="$FILENAME"_2.fq.gz
 
 	     # check gz file integrity
-	     if [ gzip -t $F1 ] && [ gzip -t $F2 ] ; then
+	     if  gzip -t $F1  &&  gzip -t $F2  ; then
 		 echo -e "\n\n*** trim $FILENAME"
 		 # get quality info for unprocessed sequences
 		 $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
