@@ -6,6 +6,8 @@ SRC=/lustre/data/ANC/NGS/sequencing/src
 BIN=/lustre/data/ANC/NGS/sequencing/bin
 REF=/lustre/data/ANC/NGS/ref/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 
+SAMPLELIST=(A6 D12 F11 G12 G4 H12 LM11_7 C10 E7 F6 F9 G8)
+
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
 BAMFOLDER=$EXPFOLDER/bam_pipeline_corrupted
@@ -29,10 +31,19 @@ fi
 
     ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.fq.gz//' |\
 	(while read SAMPLENAME; do
-
-
-	     if [[ $SAMPLENAME =~ A6 ]] || [[ $SAMPLENAME =~ D12 ]]; then
-
+	     # CHECK if SAMPLE is one of the SAMPLELIST
+	     SAMPLE=$(basename "$SAMPLENAME")
+	     SAMPLE="${SAMPLE/20190516_/}"
+	     isthere=0
+	     for i in "${SAMPLELIST[@]}"
+	     do
+		 if [[ "$SAMPLE" =~ "$i" ]] ; then
+		     isthere=1
+		 fi
+	     done
+	     # if the sample is one of the list, run
+	     if [ $isthere == 1 ] ; then 
+		 
 		 echo -e "\n\n\n*** ANALYZE  $SAMPLENAME"
 	     
 		 # check gz file integrity
