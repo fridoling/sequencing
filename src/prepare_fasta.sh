@@ -66,7 +66,7 @@ ADAPTERS=$PROJECT/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa
 RAWFASTAPATH=$(dirname "${FASTA1}")
 F1NAME=${FASTA1##*/}
 F2NAME=${FASTA2##*/}
-BASENAME=${F1NAME%%.*}
+BASENAME=${F1NAME%%1.*}
 
 # trim fasta files
 java -jar $TRIMMO PE -threads 2 -phred33 -trimlog $OUTDIR"/$BASENAME".trim_log.txt \
