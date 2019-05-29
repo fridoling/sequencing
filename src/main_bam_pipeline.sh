@@ -8,7 +8,7 @@ REF=/lustre/data/ANC/NGS/ref/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
-BAMFOLDER=$EXPFOLDER/bam_pipeline
+BAMFOLDER=$EXPFOLDER/bam_pipeline_corrupted
 LOGFOLDER=$EXPFOLDER/log
 
 # unique name of logfile that includes date and time
@@ -30,40 +30,44 @@ fi
     ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.fq.gz//' |\
 	(while read SAMPLENAME; do
 
-	     echo -e "\n\n\n*** ANALYZE  $SAMPLENAME"
+
+	     if [[ $SAMPLENAME =~ A6 ]] || [[ $SAMPLENAME =~ D12 ]]; then
+
+		 echo -e "\n\n\n*** ANALYZE  $SAMPLENAME"
 	     
-	     # check gz file integrity
-	     F1="$SAMPLENAME"_1.fq.gz 
-	     F2="$SAMPLENAME"_2.fq.gz
-	     if  gzip -t $F1  &&  gzip -t $F2  ; then
-		 echo -e "*** trim $SAMPLENAME"
-		 # get quality info for unprocessed sequences
-		 $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
-	     
-		 # trim fasta sequences
-		 $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
-	     else
-		 echo -e "\n\nWARNING: $F1 or $F2 corrupted "
-		 continue
+		 # check gz file integrity
+		 F1="$SAMPLENAME"_1.fq.gz 
+		 F2="$SAMPLENAME"_2.fq.gz
+		 if  gzip -t $F1  &&  gzip -t $F2  ; then
+		     echo -e "*** trim $SAMPLENAME"
+		     # get quality info for unprocessed sequences
+		     $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
+		     
+		     # trim fasta sequences
+		     $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
+		 else
+		     echo -e "\n\nWARNING: $F1 or $F2 corrupted "
+		     continue
+		 fi
+		 echo -e "*** done \n"
+
+		 ## PREPARE BAM
+		 F1="$SAMPLENAME".trim_1P.fq.gz
+		 F2="$SAMPLENAME".trim_2P.fq.gz
+		 echo -e "*** prepare bam from $SAMPLENAME"
+		 $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
+		 echo -e "*** done \n"
+
+		 ## REALIGN BAM
+		 echo -e "*** realign $SAMPLENAME"
+		 $SRC/realign_bam.sh "$SAMPLENAME".bam -r $REF
+		 echo -e "*** done \n"
+
+		 REALIGNEDFILE="${SAMPLENAME%%.*}"_realigned.bam
+		 echo -e "*** get information about $REALIGNEDFILE quality"
+		 $BIN/qualimap_v2.2.1/qualimap bamqc -bam $REALIGNEDFILE -nw 400 -hm 3
+		 echo -e "*** done \n\n\n"
 	     fi
-	     echo -e "*** done \n"
-
-	     ## PREPARE BAM
-	     F1="$SAMPLENAME".trim_1P.fq.gz
-	     F2="$SAMPLENAME".trim_2P.fq.gz
-	     echo -e "*** prepare bam from $SAMPLENAME"
-	     $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
-	     echo -e "*** done \n"
-
-	     ## REALIGN BAM
-	     echo -e "*** realign $SAMPLENAME"
-	     $SRC/realign_bam.sh "$SAMPLENAME".bam -r $REF
-	     echo -e "*** done \n"
-
-	     REALIGNEDFILE="${SAMPLENAME%%.*}"_realigned.bam
-	     echo -e "*** get information about $REALIGNEDFILE quality"
-	     $BIN/qualimap_v2.2.1/qualimap bamqc -bam $REALIGNEDFILE -nw 400 -hm 3
-	     echo -e "*** done \n\n\n"
 	 done
 	 )
     echo -e "EVERYTHING DONE AT " $(date) "\n\n"
