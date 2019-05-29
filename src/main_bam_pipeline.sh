@@ -49,14 +49,13 @@ fi
 		 # check gz file integrity
 		 F1="$SAMPLENAME"_1.fq.gz 
 		 F2="$SAMPLENAME"_2.fq.gz
-		 #		 if  gzip -t $F1  &&  gzip -t $F2 ; then
-		 if true ; then
+		 if  gzip -t $F1  &&  gzip -t $F2  ; then
 		     echo -e "*** trim $SAMPLENAME"
 		     # get quality info for unprocessed sequences
-	#	     $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
+		     $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
 		     
 		     # trim fasta sequences
-	#	     $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
+		     $SRC/prepare_fasta.sh $F1 $F2 -o $FASTAFOLDER
 		 else
 		     echo -e "\n\nWARNING: $F1 or $F2 corrupted "
 		     continue
@@ -67,7 +66,7 @@ fi
 		 F1="$SAMPLENAME".trim_1P.fq.gz
 		 F2="$SAMPLENAME".trim_2P.fq.gz
 		 echo -e "*** prepare bam from $SAMPLENAME"
-	#	 $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
+		 $SRC/fasta2bam.sh $F1 $F2 -r $REF -o $BAMFOLDER
 		 echo -e "*** done \n"
 
 		 ## REALIGN BAM
