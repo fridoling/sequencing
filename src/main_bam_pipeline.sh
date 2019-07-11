@@ -12,7 +12,7 @@ SAMPLELIST=(A4 B4 C4 D4 C5 E5 F5 G5 H5 G6 H6)
 
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
-BAMFOLDER=$EXPFOLDER/bam_pipeline_corrupted
+BAMFOLDER=$EXPFOLDER/bam_pipeline
 LOGFOLDER=$EXPFOLDER/log
 
 # unique name of logfile that includes date and time
