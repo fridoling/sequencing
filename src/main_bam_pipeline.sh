@@ -37,7 +37,7 @@ fi
 	(while read SAMPLENAME; do
 	     # CHECK if SAMPLE is one of the SAMPLELIST
 	     SAMPLE=$(basename "$SAMPLENAME")
-	     SAMPLE="${SAMPLE/20190516_/}"
+	     SAMPLE="${SAMPLE/20190929_/}"
 	     isthere=0
 	     for i in "${SAMPLELIST[@]}"
 	     do
