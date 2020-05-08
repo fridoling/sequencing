@@ -91,7 +91,7 @@ suffF2="_R2_001.fastq.gz"
 		 $BIN/qualimap_v2.2.1/qualimap bamqc -bam $REALIGNEDFILE -nw 400 -hm 3
 		 echo -e "*** done \n\n\n"
 	     else
-		 echo -e "\n\n\n*** $SAMPLENAME not in the list"
+		 echo -e "\n\n\n*** $SAMPLE not in the list"
 	     fi
 	 done
 	 )
