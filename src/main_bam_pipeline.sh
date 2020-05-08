@@ -61,15 +61,13 @@ suffF2="_R2_001.fastq.gz"
 		 F1="${SAMPLENAME}${suffF1}" 
 		 F2="${SAMPLENAME}${suffF2}"
 
-		 F1="${SAMPLENAME}"
-		 F2=$SAMPLENAME
-		 echo prova
-		 echo -e "${SAMPLENAME}"
-		 echo -e $F1
-		 echo -e ${F1}
-		 echo -e "${F1}"
+		 #echo prova
+		 #echo -e "${SAMPLENAME}"
+		 #echo -e $F1
+		 #echo -e ${F1}
+		 #echo -e "${F1}"
 		 #echo -e F2 $F2 
-		 if  gzip -t $F1  &&  gzip -t $F2  ; then
+		 if  gzip -t "${F1}"  &&  gzip -t "${F2}"  ; then
 		     echo -e "*** trim $SAMPLENAME"
 		     # get quality info for unprocessed sequences
 		     $BIN/FastQC/fastqc $F1 $F2 --outdir=$LOGFOLDER
