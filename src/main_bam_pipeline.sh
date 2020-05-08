@@ -35,7 +35,7 @@ suffF2="_2.fq.gz"
 #    echo -e "*** RENAMING: done \n\n\n"
 
     echo ${FASTAFOLDER}*${suffF1}
-    ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.fq.gz//' |\
+    ls  ${FASTAFOLDER}*${suffF1} | sed 's/'${suffF1}'//' |\
 	(while read SAMPLENAME; do
 	     # CHECK if SAMPLE is one of the SAMPLELIST
 	     SAMPLE=$(basename "$SAMPLENAME")
