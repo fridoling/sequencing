@@ -67,6 +67,7 @@ suffF2="_R2_001.fastq.gz"
 		 echo -e "${SAMPLENAME}"
 		 echo -e $F1
 		 echo -e ${F1}
+		 echo -e "${F1}"
 		 #echo -e F2 $F2 
 		 if  gzip -t $F1  &&  gzip -t $F2  ; then
 		     echo -e "*** trim $SAMPLENAME"
