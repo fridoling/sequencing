@@ -90,6 +90,8 @@ suffF2="_R2_001.fastq.gz"
 		 echo -e "*** get information about $REALIGNEDFILE quality"
 		 $BIN/qualimap_v2.2.1/qualimap bamqc -bam $REALIGNEDFILE -nw 400 -hm 3
 		 echo -e "*** done \n\n\n"
+	     else
+		 echo -e "\n\n\n*** $SAMPLENAME not in the list"
 	     fi
 	 done
 	 )
