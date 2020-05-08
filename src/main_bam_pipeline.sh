@@ -23,6 +23,9 @@ if [ ! -d $LOGFOLDER ]; then
    mkdir -m 775 $LOGFOLDER
 fi
 
+# suffixes
+suffF1="_1.fq.gz"
+suffF2="_2.fq.gz"
 {
     echo -e "START EVERYTHING AT " $(date) "\n\n"
 
@@ -31,6 +34,7 @@ fi
 #    $SRC/rename_fasta.sh $FASTAFOLDER $DATE
 #    echo -e "*** RENAMING: done \n\n\n"
 
+    echo ${FASTAFOLDER}*${suffF1}
     ls $FASTAFOLDER*_1.fq.gz | sed 's/_1.fq.gz//' |\
 	(while read SAMPLENAME; do
 	     # CHECK if SAMPLE is one of the SAMPLELIST
