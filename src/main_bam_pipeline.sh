@@ -38,9 +38,11 @@ suffF2="_R2_001.fastq.gz"
 	(while read SAMPLENAME; do
 	     # CHECK if SAMPLE is one of the SAMPLELIST
 	     SAMPLE=$(basename "$SAMPLENAME")
-	     SAMPLE="${SAMPLE/20190929_/}"
-
-	     echo SAMPLE $SAMPLE
+	     # remove 20190929_ as prefix SAMPLE
+	     #SAMPLE="${SAMPLE/20190929_/}"
+	     # remove suffix from SAMPLE
+	     IFS='_' tokens=( $SAMPLE )
+	     SAMPLE=${tokens[1]}
 	     
 	     isthere=0
 	     for i in "${SAMPLELIST[@]}"
@@ -55,8 +57,8 @@ suffF2="_R2_001.fastq.gz"
 		 echo -e "\n\n\n*** ANALYZE  $SAMPLENAME"
 	     
 		 # check gz file integrity
-		 F1="$SAMPLENAME"_1.fq.gz 
-		 F2="$SAMPLENAME"_2.fq.gz
+		 F1=$SAMPLENAME$suffixF1 
+		 F2=$SAMPLENAME$suffF2
 		 if  gzip -t $F1  &&  gzip -t $F2  ; then
 		     echo -e "*** trim $SAMPLENAME"
 		     # get quality info for unprocessed sequences
