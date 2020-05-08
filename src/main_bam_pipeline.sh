@@ -34,12 +34,14 @@ suffF2="_R2_001.fastq.gz"
 #    $SRC/rename_fasta.sh $FASTAFOLDER $DATE
 #    echo -e "*** RENAMING: done \n\n\n"
 
-    echo ${FASTAFOLDER}*${suffF1}
     ls  ${FASTAFOLDER}*${suffF1} | sed 's/'${suffF1}'//' |\
 	(while read SAMPLENAME; do
 	     # CHECK if SAMPLE is one of the SAMPLELIST
 	     SAMPLE=$(basename "$SAMPLENAME")
 	     SAMPLE="${SAMPLE/20190929_/}"
+
+	     echo SAMPLE $SAMPLE
+	     
 	     isthere=0
 	     for i in "${SAMPLELIST[@]}"
 	     do
