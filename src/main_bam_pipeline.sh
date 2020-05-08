@@ -57,11 +57,11 @@ suffF2="_R2_001.fastq.gz"
 		 echo -e "\n\n\n*** ANALYZE  ${SAMPLENAME}${suffF1}"
 	     
 		 # check gz file integrity
-		 F1="${SAMPLENAME}${suffF1}" 
-		 F2="${SAMPLENAME}${suffF2}"
+		 F1="$SAMPLENAME$suffF1" 
+		 F2="$SAMPLENAME$suffF2"
 
-		 echo F1 $F1 
-		 echo F2 $F2 
+		 echo -e F1 $F1 
+		 echo -e F2 $F2 
 		 if  gzip -t $F1  &&  gzip -t $F2  ; then
 		     echo -e "*** trim $SAMPLENAME"
 		     # get quality info for unprocessed sequences
