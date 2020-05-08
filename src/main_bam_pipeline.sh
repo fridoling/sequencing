@@ -57,7 +57,7 @@ suffF2="_R2_001.fastq.gz"
 		 echo -e "\n\n\n*** ANALYZE  $SAMPLENAME"
 	     
 		 # check gz file integrity
-		 F1=$SAMPLENAME$suffixF1 
+		 F1=$SAMPLENAME$suffF1 
 		 F2=$SAMPLENAME$suffF2
 		 if  gzip -t $F1  &&  gzip -t $F2  ; then
 		     echo -e "*** trim $SAMPLENAME"
