@@ -55,6 +55,7 @@ suffF2="_R2_001.fastq.gz"
 	     if [ $isthere == 1 ] ; then 
 		 
 		 echo -e "\n\n\n*** ANALYZE  ${SAMPLENAME}${suffF1}"
+		 echo -e "${SAMPLENAME}"
 	     
 		 # check gz file integrity
 		 F1="${SAMPLENAME}${suffF1}" 
