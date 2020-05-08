@@ -42,7 +42,7 @@ suffF2="_R2_001.fastq.gz"
 	     #SAMPLE="${SAMPLE/20190929_/}"
 	     # remove suffix from SAMPLE
 	     IFS='_' tokens=( $SAMPLE )
-	     SAMPLE=${tokens[1]}
+	     SAMPLE=${tokens[0]}
 	     
 	     isthere=0
 	     for i in "${SAMPLELIST[@]}"
