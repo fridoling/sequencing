@@ -63,8 +63,8 @@ suffF2="_R2_001.fastq.gz"
 
 		 F1="${SAMPLENAME}"
 		 F2=$SAMPLENAME
-		 echo -e F1 $F1 
-		 echo -e F2 $F2 
+		 echo -e $F1 $SAMPLENAME
+		 #echo -e F2 $F2 
 		 if  gzip -t $F1  &&  gzip -t $F2  ; then
 		     echo -e "*** trim $SAMPLENAME"
 		     # get quality info for unprocessed sequences
