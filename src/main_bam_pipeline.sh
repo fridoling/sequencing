@@ -9,7 +9,7 @@ BIN=/lustre/data/ANC/NGS/sequencing/bin
 REF=/lustre/data/ANC/NGS/ref/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 
 SAMPLELIST=(a1 b1 b2 c2 a4 b4 c4 d4 e4 f4 b5 a7 b7 c7 d7 h7 a8 c8 a10 b10 a11 b11 a12 b12)
-SAMPLELIST=(a1)
+SAMPLELIST=( a1 )
 
 FASTAFOLDER=$EXPFOLDER/rawdata/
 TEMP=$EXPFOLDER/processed
