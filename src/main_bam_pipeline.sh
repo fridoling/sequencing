@@ -57,9 +57,11 @@ suffF2="_R2_001.fastq.gz"
 		 echo -e "\n\n\n*** ANALYZE  ${SAMPLENAME}${suffF1}"
 	     
 		 # check gz file integrity
-		 F1="a ${SAMPLENAME}${suffF1}" 
-		 F2="a ${SAMPLENAME}${suffF2}"
+		 F1="${SAMPLENAME}${suffF1}" 
+		 F2="${SAMPLENAME}${suffF2}"
 
+		 F1=$SAMPLENAME
+		 F2=$SAMPLENAME
 		 echo -e F1 $F1 
 		 echo -e F2 $F2 
 		 if  gzip -t $F1  &&  gzip -t $F2  ; then
