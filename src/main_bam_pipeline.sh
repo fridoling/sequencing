@@ -24,8 +24,8 @@ if [ ! -d $LOGFOLDER ]; then
 fi
 
 # suffixes
-suffF1="_1.fq.gz"
-suffF2="_2.fq.gz"
+suffF1="_R1_001.fastq.gz"
+suffF2="_R2_001.fastq.gz"
 {
     echo -e "START EVERYTHING AT " $(date) "\n\n"
 
